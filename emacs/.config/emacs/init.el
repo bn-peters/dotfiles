@@ -87,7 +87,7 @@
              ;; Use `consult-completion-in-region' if Vertico is enabled.
              ;; Otherwise use the default `completion--in-region' function.
              :config
-             (setq completion-in-region-function
+             (setq completion-in-region-functio
                    (lambda (&rest args)
                      (apply (if vertico-mode
                                 #'consult-completion-in-region
@@ -106,10 +106,9 @@
 (use-package org
              :general
              (:states '(normal) "SPC o h" 'consult-org-heading)
-             (:states '(normal) "SPC o c" 'org-capture)
+             (:states '(normal) "SPC o t" 'org-capture)
              (:states '(normal) "SPC o a" 'org-agenda)
-             (:states '(normal) "SPC o n" (lambda () (interactive) (find-file "~/org/notes.org")))
-             (:states '(normal) :keymaps 'org-mode-map "SPC m t" 'org-set-tags-command)
+             (:states '(normal) "SPC o T" (lambda () (interactive) (find-file "~/org/notes.org")))
              (:states '(normal) :keymaps 'org-mode-map "SPC m d i" 'org-time-stamp)
              (:states '(normal) :keymaps 'org-mode-map "SPC m d s" 'org-schedule)
              (:states '(normal) :keymaps 'org-mode-map "SPC m d d" 'org-deadline)
@@ -119,22 +118,12 @@
              (setq org-return-follows-link t)
              ;; Always open things in the same buffer
              (setf (cdr (assoc 'file org-link-frame-setup)) 'find-file)
-             ;; set the org directory
-             (setq org-directory "~/org")
-             ; ;; Set default org file
-             (setq org-default-notes-file "~/org/notes.org")
              (setq org-capture-templates '(("n" "Note" entry (file "~/org/notes.org") 
-                                            "* IN-PROGRESS %?" :empty-lines 1)
-                                           ("N" "Notelet" entry (file "~/org/notelets.org")
-                                            "* %?" :empty-lines 1)
-                                           ("m" "Meeting" entry (file "~/org/notes.org")
-                                            "* Meeting %? %u" :empty-lines 1)
-                                           ("t" "Todo" entry (file "~/org/notes.org")
-                                            "* TODO %?" :empty-lines 1)))
-             (setq org-agenda-files '("~/org/notes.org" "~/org/notelets.org"))
+                                            "* %?" :empty-lines 1)))
+             (setq org-agenda-files '("~/org"))
              (setq org-todo-keywords
                    '((sequence "TODO" "WORKING" "|" "DONE" "CLOSED")
-                     (sequence "NOTE" "PROJECT" "WIP" "TEMP" "|")))
+                     (sequence "PROJECT" "WIP" "TEMP" "|")))
              (setq org-todo-keyword-faces '(("TODO" . org-todo)
                                             ("WORKING" . "yellow")
                                             ("DONE" . org-done)
@@ -178,31 +167,31 @@
 
 
 ; ;; Org roam: Note taking
-; (use-package org-roam
-;              :general
-;              (:states '(normal) "SPC o o" 'org-roam-node-find)
-;              (:states '(normal) "SPC o r" 'org-roam-ref-find)
-;              (:states '(normal) "SPC o b" 'org-roam-buffer-toggle)
-;              (:states '(normal) :keymaps 'org-mode-map "SPC m t" 'org-roam-tag-add)
-;              (:states '(normal) :keymaps 'org-mode-map "SPC m l" 'org-roam-node-insert)
-;              (:states '(normal) :keymaps 'org-mode-map "SPC m r" 'org-roam-ref-add)
-;              :custom
-;              (org-roam-directory "/home/silvus/org")
-;              (org-roam-setup)
-;              (org-roam-capture-templates '(("n" "note" plain "* ${title}\n\n%?"
-;                                            :target (file+head "${slug}.org"
-;                                                               "#+title: ${title}\n\n")
-;                                            :unnarrowed t)
-;                                            ; ("m" "meeting" plain "* ${title} %u \n\n%?"
-;                                            ; :target (file+head "${slug}.org"
-;                                            ;                    "#+title: ${title} %u \n#+filetags: :meeting:\n\n")
-;                                            ; :unnarrowed t)))
-;                                            ))
-;              :config
-;              (org-roam-db-autosync-mode)
-;              (setq org-roam-node-display-template
-;                    (concat "${title:*} "
-;                            (propertize "${tags:40}" 'face 'org-tag))))
+(use-package org-roam
+             :general
+             (:states '(normal) "SPC o o" 'org-roam-node-find)
+             (:states '(normal) "SPC o r" 'org-roam-ref-find)
+             (:states '(normal) "SPC o t" 'org-roam-tag-add)
+             (:states '(normal) "SPC o b" 'org-roam-buffer-toggle)
+             (:states '(normal) :keymaps 'org-mode-map "SPC m l" 'org-roam-node-insert)
+             (:states '(normal) :keymaps 'org-mode-map "SPC m r" 'org-roam-ref-add)
+             :custom
+             (org-roam-directory "/home/silvus/org")
+             (org-roam-setup)
+             (org-roam-capture-templates '(("n" "note" plain "* ${title}\n\n%?"
+                                           :target (file+head "${slug}.org"
+                                                              "#+title: ${title}\n\n")
+                                           :unnarrowed t)
+                                           ; ("m" "meeting" plain "* ${title} %u \n\n%?"
+                                           ; :target (file+head "${slug}.org"
+                                           ;                    "#+title: ${title} %u \n#+filetags: :meeting:\n\n")
+                                           ; :unnarrowed t)))
+                                           ))
+             :config
+             (org-roam-db-autosync-mode)
+             (setq org-roam-node-display-template
+                   (concat "${title:*} "
+                           (propertize "${tags:40}" 'face 'org-tag))))
 
 ;; citar: citations in emacs, particularly in org mode
 (use-package citar
@@ -263,6 +252,6 @@
 (use-package company
              :config
              (add-hook 'after-init-hook 'global-company-mode)
-             (setq company-minimum-prefix-length 2)
+             (setq company-minimum-prefix-length 0)
              (setq company-idle-delay 0.25)
              (add-to-list 'company-backends 'company-capf))
