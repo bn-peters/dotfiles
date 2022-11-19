@@ -14,6 +14,7 @@ call plug#begin()
     Plug 'therubymug/vim-pyte'
     " Best monotone
     Plug 'preservim/vim-colors-pencil'
+    Plug 'dracula/vim'
 
     Plug 'itchyny/lightline.vim'
     Plug 'ap/vim-buftabline'
@@ -66,6 +67,8 @@ set undofile
 
 set spell spelllang=en_gb
 
+set title
+
 
 " Buffer management
 nnoremap <leader>bn :bn<CR>
@@ -91,12 +94,12 @@ set termguicolors
 " Set Coq hightlight in nord color scheme
 augroup CoqtailHighlights
   autocmd!
-  autocmd ColorScheme onedark
+  autocmd ColorScheme dracula
     \  hi def CoqtailChecked ctermbg=0 guibg=#1D3824
     \| hi def CoqtailSent    ctermbg=53 guibg=#291616
 augroup END
 
-colorscheme onedark
+colorscheme dracula
 
 " Highlight cursorline
 " hi clear CursorLine
@@ -118,7 +121,7 @@ nnoremap <leader>? :Maps<CR>
 
 " Lightline
 let g:lightline = {
-      \ 'colorscheme': 'one',
+      \ 'colorscheme': 'dracula',
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
       \             [ 'gitbranch' ],

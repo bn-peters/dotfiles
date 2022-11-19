@@ -14,18 +14,27 @@
 
 ;; disable package.el
 (setq package-enable-at-startup nil)
-;; automatically call straight.el when importing using use-package
+;; automatically use straight.el when importing using use-package
 (setq straight-use-package-by-default t)
 
 ;; Disable menu and tool bars
 (menu-bar-mode -1)
 (tool-bar-mode -1)
+(scroll-bar-mode -1)
+
+
+(set-frame-parameter nil 'alpha-background 70) ; For current frame
+(add-to-list 'default-frame-alist '(alpha-background . 70)) ; For all new frames henceforth
 
 ;; Disable start screen
 (setq inhibit-startup-screen t)
 
 ;; enable line wrapping
 (global-visual-line-mode)
+
+;; set behavior when cursor leaves screen
+(setq scroll-conservatively 1)
+(setq scroll-margin 5)
 
 ;; Disable beeps
 (setq ring-bell-function 'ignore)
@@ -42,15 +51,20 @@
 ; :defer     TODO
 
 ;; Install theme
-(use-package spacemacs-theme
+; (use-package spacemacs-theme
+;              ; no idea what defer does here, but its required
+;              :defer t 
+;              :init
+;              ; also available: spacemacs-light
+;              (load-theme 'spacemacs-dark t))
+(use-package dracula-theme
              ; no idea what defer does here, but its required
              :defer t 
              :init
              ; also available: spacemacs-light
-             (load-theme 'spacemacs-dark t))
+             (load-theme 'dracula t))
 
 ;; general.el: advanced keyboard shortcuts
-; TODO use all available features
 (use-package general)
 
 ;; which-key: show possible keys to follow
@@ -58,6 +72,30 @@
              :config
              (which-key-mode 1))
 
+(general-create-definer def-key-notes 
+                        :states '(normal) 
+                        :prefix "SPC n")
+(def-key-notes 
+  "" '(nil :which-key "notes"))
+(general-create-definer def-key-citations 
+                        :states '(normal) 
+                        :prefix "SPC c")
+(def-key-citations 
+  "" '(nil :which-key "citations"))
+
+
+(general-create-definer def-key-files 
+                        :states '(normal) 
+                        :prefix "SPC f")
+(def-key-files 
+  "" '(nil :which-key "files")
+  "f" 'find-file
+  "d" 'delete-file)
+
+(general-create-definer def-key-org 
+                        :states '(normal) 
+                        :keymaps 'org-mode-map 
+                        :prefix "SPC m")
 
 ;; vertico: Vertical completion framework
 (use-package vertico
@@ -77,8 +115,9 @@
              :config
              ;; enable evil mode verywhere
              (evil-mode 1)
-             ;; unbind return in evil mode to allow org-return-follows-link to work
+             ;; unbind keys in evil mode
              (define-key evil-motion-state-map (kbd "RET") nil)
+             (define-key evil-normal-state-map (kbd "C-.") nil)
              (define-key evil-motion-state-map (kbd "TAB") nil))
 
 ;; TODO understand consult
@@ -94,6 +133,13 @@
                               #'completion--in-region)
                             args))))
 
+(use-package embark
+             :bind
+             (("C-." . embark-act)))
+(use-package marginalia
+             :config 
+             (marginalia-mode))
+
 ;; Replaces file associations
 (use-package openwith
              :custom
@@ -105,13 +151,15 @@
 ;; org
 (use-package org
              :general
-             (:states '(normal) "SPC o h" 'consult-org-heading)
-             (:states '(normal) "SPC o t" 'org-capture)
-             (:states '(normal) "SPC o a" 'org-agenda)
-             (:states '(normal) "SPC o T" (lambda () (interactive) (find-file "~/org/notes.org")))
-             (:states '(normal) :keymaps 'org-mode-map "SPC m d i" 'org-time-stamp)
-             (:states '(normal) :keymaps 'org-mode-map "SPC m d s" 'org-schedule)
-             (:states '(normal) :keymaps 'org-mode-map "SPC m d d" 'org-deadline)
+             (def-key-notes "h" 'consult-org-heading
+                            "t" 'org-capture
+                            "a" 'org-agenda
+                            "T" '((lambda () (interactive) (find-file "~/org/notes.org")) 
+                                  :which-key "open notes.org"))
+             (def-key-org "d" '(nil :which-key "dates")
+                          "d i" 'org-time-stamp
+                          "d s" 'org-schedule
+                          "d d" 'org-deadline)
              :hook (org-mode . org-indent-mode)
              :config
              ;; Use return to open links in org mode
@@ -137,7 +185,10 @@
                                              (todo . " %i %-12:c")
                                              (tags . " %i %-12:c")
                                              (search . " %i %-12:c")))
-             (setq org-agenda-breadcrumbs-separator "/"))
+             (setq org-agenda-breadcrumbs-separator "/")
+             ;; Size of latex preview
+             (setq org-format-latex-options (plist-put org-format-latex-options :scale 1.35))
+             (setq org-format-latex-options (plist-put org-format-latex-options :background "Transparent")) )
 
 (use-package mixed-pitch
              :hook
@@ -154,6 +205,12 @@
              :init
              (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 
+;; Disable latex preview when hovering them
+(use-package org-fragtog
+             :after (org)
+             :init
+             (add-hook 'org-mode-hook 'org-fragtog-mode))
+
 ;; Vim keybinds in org mode
 (use-package evil-org
              :after (org evil)
@@ -169,12 +226,10 @@
 ; ;; Org roam: Note taking
 (use-package org-roam
              :general
-             (:states '(normal) "SPC o o" 'org-roam-node-find)
-             (:states '(normal) "SPC o r" 'org-roam-ref-find)
-             (:states '(normal) "SPC o t" 'org-roam-tag-add)
-             (:states '(normal) "SPC o b" 'org-roam-buffer-toggle)
-             (:states '(normal) :keymaps 'org-mode-map "SPC m l" 'org-roam-node-insert)
-             (:states '(normal) :keymaps 'org-mode-map "SPC m r" 'org-roam-ref-add)
+             (def-key-notes "n" 'org-roam-node-find)
+             (def-key-org "t" 'org-roam-tag-add
+                          "b" 'org-roam-buffer-toggle
+                          "l" 'org-roam-node-insert)
              :custom
              (org-roam-directory "/home/silvus/org")
              (org-roam-setup)
@@ -196,9 +251,9 @@
 ;; citar: citations in emacs, particularly in org mode
 (use-package citar
              :general
-             (:states '(normal) :keymaps 'org-mode-map "SPC m c" 'org-cite-insert)
-             (:states '(normal) :keymaps 'org-mode-map "SPC c i" 'org-cite-insert)
-             (:states '(normal) :keymaps 'org-mode-map "SPC c f" 'citar-open-files)
+             (def-key-org "c" 'org-cite-insert)
+             (def-key-citations "f" 'citar-open-files
+                                "i" 'org-cite-insert)
              :custom
              (org-cite-global-bibliography '("~/org/references.bib"))
              (citar-library-paths '("~/org/library/"))
@@ -206,12 +261,16 @@
              (org-cite-follow-processor 'citar)
              (org-cite-activate-processor 'citar)
              (citar-bibliography org-cite-global-bibliography))
+(use-package citar-embark 
+             :after citar embark
+             :config
+             (citar-embark-mode))
 
 ;; deft: full-text search notes in specific directory
 ;; TODO could be replaced by ag/ripgrep/...
 (use-package deft
              :general
-             (:states '(normal) "SPC o d" 'deft)
+             (def-key-notes "d" 'deft)
              :custom
              (deft-directory "~/org/")
              :config 
@@ -242,7 +301,7 @@
 (use-package helm)
 (use-package helm-org-ql
              :general
-             (:states '(normal) "SPC o q" 'helm-org-ql-directory))
+             (def-key-notes "q" 'helm-org-ql-directory))
 
 (use-package magit)
 (use-package evil-collection
@@ -252,6 +311,7 @@
 (use-package company
              :config
              (add-hook 'after-init-hook 'global-company-mode)
-             (setq company-minimum-prefix-length 0)
-             (setq company-idle-delay 0.25)
-             (add-to-list 'company-backends 'company-capf))
+             (setq company-minimum-prefix-length 1)
+             (setq company-idle-delay 0.05)
+             (add-to-list 'company-backends 'company-capf)
+             (company-tng-configure-default))
