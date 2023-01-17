@@ -17,14 +17,23 @@
 ;; automatically use straight.el when importing using use-package
 (setq straight-use-package-by-default t)
 
+;; Disable warnings from native comp
+;(setq native-comp-async-report-warnings-errors nil)
+(setq warning-minimum-level :error)
+
 ;; Disable menu and tool bars
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 
 
-(set-frame-parameter nil 'alpha-background 70) ; For current frame
-(add-to-list 'default-frame-alist '(alpha-background . 70)) ; For all new frames henceforth
+;; Enable transparency
+; (set-frame-parameter nil 'alpha-background 70) ; For current frame
+; (add-to-list 'default-frame-alist '(alpha-background . 70)) ; For all new frames henceforth
+
+
+;; Enable line numbers
+(global-display-line-numbers-mode 1)
 
 ;; Disable start screen
 (setq inhibit-startup-screen t)
@@ -38,6 +47,15 @@
 
 ;; Disable beeps
 (setq ring-bell-function 'ignore)
+
+;; Enable pairing
+(electric-pair-mode)
+
+
+;; Set default fonts
+(set-face-attribute 'default nil :font "Fira Code Retina" :height 120)
+(set-face-attribute 'fixed-pitch nil :font "Fira Code Retina" :height 120)
+(set-face-attribute 'variable-pitch nil :font "Source Serif Pro" :height 120)
 
 ;; Install use-package
 (straight-use-package 'use-package)
@@ -90,12 +108,28 @@
 (def-key-files 
   "" '(nil :which-key "files")
   "f" 'find-file
-  "d" 'delete-file)
+  "d" 'delete-file
+  ; TODO move this to a more reasonable category
+  ; TODO think about what to do with symlinks, cf https://stackoverflow.com/a/30900018
+  "c" '((lambda () (interactive) (find-file "~/.config/emacs/init.el")) 
+  	:which-key "open config"))
 
 (general-create-definer def-key-org 
                         :states '(normal) 
                         :keymaps 'org-mode-map 
                         :prefix "SPC m")
+(def-key-org
+  "" '(nil :which-key "mode"))
+
+(general-create-definer def-key-toggles
+			:states '(normal)
+			:prefix "SPC t")
+(def-key-toggles
+ "" '(nil :which-key "toggles")
+ "l" 'display-line-numbers-mode
+ "m" 'mixed-pitch-mode
+ ; TODO enable line numbers everywhere except in org, markdown, etc
+ "h" 'hl-line-mode)
 
 ;; vertico: Vertical completion framework
 (use-package vertico
@@ -152,7 +186,9 @@
 (use-package org
              :general
              (def-key-notes "h" 'consult-org-heading
-                            "t" 'org-capture
+                            "t" '((lambda () (interactive) (org-capture nil "n"))
+                                  :which-key "org-capture" )
+			              ; "t" 'org-capture
                             "a" 'org-agenda
                             "T" '((lambda () (interactive) (find-file "~/org/notes.org")) 
                                   :which-key "open notes.org"))
@@ -162,6 +198,8 @@
                           "d d" 'org-deadline)
              :hook (org-mode . org-indent-mode)
              :config
+	     ;; disable line numbers in org mode
+	     (add-hook 'org-mode-hook (lambda () (display-line-numbers-mode 0)))
              ;; Use return to open links in org mode
              (setq org-return-follows-link t)
              ;; Always open things in the same buffer
@@ -192,11 +230,7 @@
 
 (use-package mixed-pitch
              :hook
-             (org-mode . mixed-pitch-mode)
-             :config
-             (set-face-attribute 'default nil :font "Fira Code Retina" :height 120)
-             (set-face-attribute 'fixed-pitch nil :font "Fira Code Retina" :height 120)
-             (set-face-attribute 'variable-pitch nil :font "Source Serif Pro" :height 120))
+             (org-mode . mixed-pitch-mode))
 
 
 ;; Fancy bullets in front of headings
@@ -210,6 +244,27 @@
              :after (org)
              :init
              (add-hook 'org-mode-hook 'org-fragtog-mode))
+;; Disable formatting when hovering
+(use-package org-appear
+             :after (org)
+	     :config
+	     (setq org-hide-emphasis-markers t)
+	     (setq org-appear-autolinks t)
+	     (setq org-startup-with-latex-preview t)
+	     ; only use org appear in insert mode
+	     ; from https://stackoverflow.com/questions/10969617/hiding-markup-elements-in-org-mode
+ 	     (setq org-appear-trigger 'manual)
+ 	     (add-hook 'org-mode-hook (lambda ()
+                           (add-hook 'evil-insert-state-entry-hook
+                                     #'org-appear-manual-start
+                                     nil
+                                     t)
+                           (add-hook 'evil-insert-state-exit-hook
+                                     #'org-appear-manual-stop
+                                     nil
+                                     t)))
+             :init
+             (add-hook 'org-mode-hook 'org-appear-mode))
 
 ;; Vim keybinds in org mode
 (use-package evil-org
@@ -311,7 +366,11 @@
 (use-package company
              :config
              (add-hook 'after-init-hook 'global-company-mode)
-             (setq company-minimum-prefix-length 1)
+             (setq company-minimum-prefix-length 0)
              (setq company-idle-delay 0.05)
              (add-to-list 'company-backends 'company-capf)
-             (company-tng-configure-default))
+             (company-tng-configure-default)
+	     :custom-face
+	     ; Avoid ragged lines for completion
+	     ; TODO make this coincide with "default" type face from mixed pitch mode
+	     (company-tooltip ((t (:family "Fira Code Retina")))))
