@@ -2,11 +2,11 @@
 (defvar bootstrap-version)
 (let ((bootstrap-file
        (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-      (bootstrap-version 5))
+      (bootstrap-version 6))
   (unless (file-exists-p bootstrap-file)
     (with-current-buffer
         (url-retrieve-synchronously
-         "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+         "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
          'silent 'inhibit-cookies)
       (goto-char (point-max))
       (eval-print-last-sexp)))
@@ -93,18 +93,17 @@
 (general-create-definer def-key-notes 
                         :states '(normal) 
                         :prefix "SPC n")
-(def-key-notes 
-  "" '(nil :which-key "notes"))
 (general-create-definer def-key-citations 
                         :states '(normal) 
                         :prefix "SPC c")
-(def-key-citations 
-  "" '(nil :which-key "citations"))
-
-
 (general-create-definer def-key-files 
                         :states '(normal) 
                         :prefix "SPC f")
+
+(def-key-notes 
+  "" '(nil :which-key "notes"))
+(def-key-citations 
+  "" '(nil :which-key "citations"))
 (def-key-files 
   "" '(nil :which-key "files")
   "f" 'find-file
