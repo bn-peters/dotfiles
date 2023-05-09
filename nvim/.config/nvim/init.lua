@@ -33,15 +33,6 @@ require("lazy").setup({
 	{
 		"whonore/coqtail",
 		config = function()
-			-- function Coq_do_windows()
-			--     let width = winwidth(0)
-			--     if &columns - 110 > 110
-			--         execute "vert res " . (&columns-110)
-			--     else
-			--         execute "vert res " . (&columns/2)
-			--     endif
-			-- endfunction
-
 			-- nmap <leader>c. <leader>cl
 			-- nmap <M-down> <leader>cj
 			-- nmap <M-up> <leader>ck
@@ -60,6 +51,8 @@ require("lazy").setup({
 		config = function()
 			vim.g.vimtex_view_method = "zathura"
 			vim.g.vimtex_mappings_prefix = "<leader>m"
+            vim.g.vimtex_compiler_latexmk_engines = { _ = "-lualatex" }
+            vim.g.vimtex_quickfix_ignore_filters = { "Marginpar on page" };
 		end,
 	},
 })
@@ -100,10 +93,26 @@ vim.opt.title = true
 
 vim.keymap.set("n", "<leader>bn", ":bn<CR>", { desc = "next buffer" })
 vim.keymap.set("n", "<leader>bp", ":bp<CR>", { desc = "previous buffer" })
+-- vim.keymap.set("n", "<tab>", ":bn<CR>", { desc = "next buffer" })
+-- vim.keymap.set("n", "<s-tab>", ":bp<CR>", { desc = "previous buffer" })
 vim.keymap.set("n", "<leader>bd", ":bp <bar> bd # <CR>", { desc = "delete buffer" })
--- vim.keymap.set("n", "gcc", "gcc", { desc = "toggle comment" })
+vim.keymap.set("n", "<leader>fc", ":e ~/.config/nvim/init.lua<CR>", { desc = "open config" })
 
 vim.keymap.set("n", "<CR>", ":noh<CR><CR>", { noremap = true })
+
+vim.keymap.set("t", "<esc>", "<C-\\><C-n>", { desc = "exit terminal mode" })
+vim.keymap.set("n", "<leader>w<left>", "<C-w><left>", { desc = "window left" })
+vim.keymap.set("n", "<A-left>", "<C-w><left>", { desc = "window left" })
+vim.keymap.set("t", "<A-left>", "<C-\\><C-N><C-w><left>", { desc = "window left" })
+vim.keymap.set("n", "<leader>w<right>", "<C-w><right>", { desc = "window right" })
+vim.keymap.set("n", "<A-right>", "<C-w><right>", { desc = "window right" })
+vim.keymap.set("t", "<A-right>", "<C-\\><C-N><C-w><right>", { desc = "window right" })
+vim.keymap.set("n", "<leader>w<up>", "<C-w><up>", { desc = "window up" })
+vim.keymap.set("n", "<A-up>", "<C-w><up>", { desc = "window up" })
+vim.keymap.set("t", "<A-up>", "<C-\\><C-N><C-w><up>", { desc = "window up" })
+vim.keymap.set("n", "<leader>w<down>", "<C-w><down>", { desc = "window down" })
+vim.keymap.set("n", "<A-down>", "<C-w><down>", { desc = "window down" })
+vim.keymap.set("t", "<A-down>", "<C-\\><C-N><C-w><down>", { desc = "window down" })
 
 -- nnoremap <leader>wh <c-w>h
 -- nnoremap <leader>wj <c-w>j

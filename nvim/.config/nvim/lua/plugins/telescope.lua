@@ -16,7 +16,7 @@ return {
 		cmd = "Telescope",
 		lazy = false,
 		config = function()
-            require("telescope").setup()
+			require("telescope").setup()
 			require("telescope").load_extension("fzf")
 		end,
 		keys = {
@@ -31,9 +31,9 @@ return {
 				"<leader>ff",
 				function()
 					require("telescope.builtin").find_files({
-                        no_ignore = true,
-                        follow = true,
-                    })
+						no_ignore = false,
+						follow = true,
+					})
 				end,
 				desc = "find",
 			},
@@ -86,7 +86,7 @@ return {
 				function()
 					require("telescope.builtin").colorscheme()
 				end,
-				desc = "select colour scheme",
+				desc = "colour scheme",
 			},
 			{
 				"<leader>u",
@@ -116,7 +116,7 @@ return {
 			{
 				"<leader>h",
 				function()
-                    require("telescope.builtin").help_tags()
+					require("telescope.builtin").help_tags()
 				end,
 				desc = "help tags",
 			},

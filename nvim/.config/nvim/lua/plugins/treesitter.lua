@@ -4,8 +4,15 @@ return {
 		build = ":TSUpdate",
 		lazy = false,
 		config = function()
-			require("nvim-treesitter").setup({
-				ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "latex", "rust", "python" },
+			-- TODO check these, from blogpost
+			-- TODO ensure I understand installation
+			require("nvim-treesitter.configs").setup({
+				ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "latex", "rust", "toml", "python" },
+				auto_install = true,
+				highlight = {
+					enable = true,
+				},
+				ident = { enable = true },
 			})
 		end,
 	},

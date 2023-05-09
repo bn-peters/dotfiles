@@ -5,20 +5,19 @@ return {
 		config = function()
 			require("nvim-tree").setup()
 		end,
-        keys = {
+		keys = {
 			{
 				"<leader>ft",
-                function()
-                    require("nvim-tree.api").tree.toggle({ focus = false})
-                end,
+				function()
+					require("nvim-tree.api").tree.toggle({ focus = false })
+				end,
 				desc = "toggle tree view",
 			},
 			{
 				"<leader>fT",
-                ":NvimTreeFindFile<CR>",
+				":NvimTreeFindFile<CR>",
 				desc = "find current file in tree",
 			},
-        }
-            
+		},
 	},
 }
