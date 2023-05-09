@@ -1,0 +1,13 @@
+snippet begin \begin{} ... \end{} block
+	\\begin{${1:env}}
+		${0:${VISUAL}}
+	\\end{$1}
+
+
+snippet beginopt \begin{} ... \end{} block
+	\\begin{${1:env}}[${2:opt}]
+		${0:${VISUAL}}
+	\\end{$1}
+
+snippet family family
+	($1)_{$2}
