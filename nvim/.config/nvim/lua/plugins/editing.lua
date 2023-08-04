@@ -10,7 +10,16 @@ return {
             vim.cmd("autocmd FileType tex let b:surround_116 = \"\\\\tup{\\r}\"")
         end,
     },
-	"simnalamburt/vim-mundo",
+	{
+        "simnalamburt/vim-mundo",
+        keys = {
+            {
+                "<leader>U",
+                ":MundoToggle<CR>",
+                desc = "toggle undo tree"
+            }
+        }
+    },
 	"wellle/targets.vim",
 	{
 		"windwp/nvim-autopairs",
