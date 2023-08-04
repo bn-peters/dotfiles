@@ -10,6 +10,6 @@ result = REGEX.search(setxkbmap)
 layout = result.group(1)
 
 if layout == "us":
-    subprocess.check_output(["setxkbmap", "de"])
+    subprocess.check_output(["setxkbmap", "de", "-option", "caps:swapescape"])
 else:
-    subprocess.check_output(["setxkbmap", "us", "-variant", "altgr-intl"])
+    subprocess.check_output(["setxkbmap", "us", "-variant", "altgr-intl", "-option", "caps:swapescape"])

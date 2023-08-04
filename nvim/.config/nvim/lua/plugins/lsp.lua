@@ -48,6 +48,8 @@ return {
 	-- show LSP status in bottom right corner
 	{
 		"j-hui/fidget.nvim",
+        -- TODO remove when plugin is updated
+        branch = "legacy",
 		config = function()
 			require("fidget").setup()
 		end,

@@ -7,6 +7,7 @@ return {
         config = function()
             -- use e.g. ysiwe to surround the current word with \emph{} in tex files
             vim.cmd("autocmd FileType tex let b:surround_101 = \"\\\\emph{\\r}\"")
+            vim.cmd("autocmd FileType tex let b:surround_116 = \"\\\\tup{\\r}\"")
         end,
     },
 	"simnalamburt/vim-mundo",
@@ -20,10 +21,10 @@ return {
             local Rule = require("nvim-autopairs.rule")
 
             pairs.add_rule(Rule("\\[", "\\]", "tex"))
-            pairs.add_rule(Rule("$", "$", "tex")
-                :with_move(function(opts)
-                    return opts.next_char == opts.char
-                end))
+            -- pairs.add_rule(Rule("$", "$", "tex")
+            --     :with_move(function(opts)
+            --         return opts.next_char == opts.char
+                -- end))
 		end,
 	},
 	"RRethy/vim-illuminate",

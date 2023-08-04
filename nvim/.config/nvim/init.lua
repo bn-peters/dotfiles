@@ -55,6 +55,11 @@ require("lazy").setup({
             vim.g.vimtex_quickfix_ignore_filters = { "Marginpar on page" };
 		end,
 	},
+},
+{
+    change_detection = {
+        enabled = false,
+    },
 })
 
 vim.opt.mouse = "a"
@@ -84,6 +89,15 @@ vim.opt.spelllang = "en_gb"
 
 vim.opt.title = true
 
+
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = "tex",
+    callback = function()
+        vim.opt.breakindent = true
+        vim.opt.linebreak = true
+    end
+})
+
 -- augroup CoqtailHighlights
 --   autocmd!
 --   autocmd ColorScheme dracula
@@ -100,6 +114,9 @@ vim.keymap.set("n", "<leader>fc", ":e ~/.config/nvim/init.lua<CR>", { desc = "op
 
 vim.keymap.set("n", "<CR>", ":noh<CR><CR>", { noremap = true })
 
+vim.keymap.set("n", "<space>L", ":Lazy<CR>", { desc = "open Lazy control panel"})
+vim.keymap.set("n", "<space>U", ":MundoToggle<CR>", { desc = "toggle undo tree"})
+
 vim.keymap.set("t", "<esc>", "<C-\\><C-n>", { desc = "exit terminal mode" })
 vim.keymap.set("n", "<leader>w<left>", "<C-w><left>", { desc = "window left" })
 vim.keymap.set("n", "<A-left>", "<C-w><left>", { desc = "window left" })
@@ -113,6 +130,7 @@ vim.keymap.set("t", "<A-up>", "<C-\\><C-N><C-w><up>", { desc = "window up" })
 vim.keymap.set("n", "<leader>w<down>", "<C-w><down>", { desc = "window down" })
 vim.keymap.set("n", "<A-down>", "<C-w><down>", { desc = "window down" })
 vim.keymap.set("t", "<A-down>", "<C-\\><C-N><C-w><down>", { desc = "window down" })
+
 
 -- nnoremap <leader>wh <c-w>h
 -- nnoremap <leader>wj <c-w>j
