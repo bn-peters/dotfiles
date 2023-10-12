@@ -14,3 +14,6 @@
 	defaultBranch = master
 [merge]
 	tool = vimdiff
+[user]
+	name = Benjamin Peters
+	email = bpeters@mpi-sws.org
