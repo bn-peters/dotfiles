@@ -4,10 +4,7 @@ return {
 		build = "make",
 	},
 	{
-		-- "nvim-telescope/telescope.nvim",
-		-- TODO go back to main branch once PR is merged
-		"bn-peters/telescope.nvim",
-		branch = "keymap-filter",
+		"nvim-telescope/telescope.nvim",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 			"nvim-treesitter/nvim-treesitter",

@@ -19,16 +19,6 @@ require("lazy").setup({
 	{ import = "plugins" },
 
 	-- { "Valloric/YouCompleteMe", build="./install.py" },
-
-	-- TODO fix completion bug with snippets beginning with \
-	-- TODO adding this breaks <tab> everywhere... inserts <t_ü>
-	-- {"SirVer/ultisnips",
-	--     config = function()
-	--         vim.g.UltiSnipsExpandTrigger = "<c-space>"
-	--         vim.g.UltiSnipsJumpForwardTrigger ="<c-space>"
-	--         vim.g.UltiSnipsJumpBackwardTrigger ="<c-s-space>"
-	--     end,
-	-- },
 },
 {
     change_detection = {

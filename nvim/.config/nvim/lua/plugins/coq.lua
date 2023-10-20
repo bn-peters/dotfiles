@@ -5,6 +5,7 @@ return {
 		config = function()
             vim.g.coqtail_noimap = 1
             vim.g.coqtail_map_prefix = "<leader>m"
+
             
             vim.api.nvim_create_autocmd("FileType",
                 {
