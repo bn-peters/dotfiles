@@ -8,7 +8,9 @@ return {
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 			"nvim-treesitter/nvim-treesitter",
-			"nvim-telescope/telescope-fzf-native.nvim",
+			{
+                "nvim-telescope/telescope-fzf-native.nvim",
+                build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build'  },
 		},
 		cmd = "Telescope",
 		lazy = false,
@@ -45,16 +47,23 @@ return {
 			{
 				"<leader>sg",
 				function()
-					require("telescope.builtin").grep_string({})
+					require("telescope.builtin").live_grep({})
 				end,
 				desc = "grep files",
+			},
+			{
+				"<leader>sw",
+				function()
+					require("telescope.builtin").grep_string({})
+				end,
+				desc = "grep word under cursor in files",
 			},
 			{
 				"<leader>sc",
 				function()
 					require("telescope.builtin").current_buffer_fuzzy_find({})
 				end,
-				desc = "grep current",
+				desc = "grep current file",
 			},
 
 			{

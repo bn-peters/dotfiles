@@ -64,4 +64,17 @@ return {
 			},
 		},
 	},
+    {
+        "junegunn/fzf.vim",
+		dependencies = {
+			"junegunn/fzf",
+        },
+        keys = {
+            {
+                "<leader>sf",
+                ":Ag<CR>",
+                "fuzzy search files"
+            }
+        }
+    }
 }
