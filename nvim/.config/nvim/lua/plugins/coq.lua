@@ -6,6 +6,7 @@ return {
             vim.g.coqtail_noimap = 1
             vim.g.coqtail_map_prefix = "<leader>m"
 
+            vim.list_extend(require("nvim-autopairs").get_rule("'")[1].not_filetypes, { "coq" })
             
             vim.api.nvim_create_autocmd("FileType",
                 {
@@ -41,11 +42,31 @@ return {
                             else
                                 vim.api.nvim_win_set_height(info_window, math.floor(current * 0.7))
                             end
+
+                            local current_width = vim.api.nvim_win_get_width(main_window)
+                            local other_width = vim.api.nvim_win_get_width(goal_window)
+
+                            vim.api.nvim_win_set_width(goal_window, math.min(90, math.floor((current_width + other_width) * 0.5)))
                         end, { buffer = true, desc = "Coq resize panels"})
                     end
                 }
             )
 
+            vim.api.nvim_create_autocmd("FileType",
+                {
+                    pattern = {"coq-goals", "coq-info"},
+                    callback = function()
+                        vim.keymap.set("n", "<M-down>", ":CoqNext<CR>", { buffer = true, desc = "Coq next"})
+                        vim.keymap.set("n", "<M-up>", ":CoqUndo<CR>", { buffer = true, desc = "Coq previous"})
+                        vim.keymap.set("i", "<M-down>", "<c-o>:CoqNext<CR>", { buffer = true, desc = "Coq next"})
+                        vim.keymap.set("i", "<M-up>", "<c-o>:CoqUndo<CR>", { buffer = true, desc = "Coq previous"})
+
+
+                        vim.opt.relativenumber = false
+                        vim.opt.number = false
+                    end
+                }
+            )
 		end,
 	},
 }
