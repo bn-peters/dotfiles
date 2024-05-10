@@ -70,20 +70,22 @@ return {
 	-- TODO evaluate bufferline vs cokeline
 	{
 		"akinsho/bufferline.nvim",
+        -- TODO remove once #895 is fixed
+        tag = "v4.5.2",
 		dependencies = {
 			"nvim-tree/nvim-web-devicons",
 		},
 		config = function()
 			require("bufferline").setup({
 				options = {
-					offsets = {
-						{
-							filetype = "NvimTree",
-							text = "Nvim Tree",
-							highlight = "Directory",
-							separator = false, -- use a "true" to enable the default, or set your own character
-						},
-					},
+                    offsets = {
+                        {
+                            filetype = "NvimTree",
+                            text = "File Explorer",
+                            text_align = "left",
+                            separator = true
+                        }
+                    },
 				},
 			})
 		end,

@@ -70,6 +70,7 @@ vim.api.nvim_create_autocmd("FileType", {
 -- buffers
 vim.keymap.set("n", "<leader>bn", ":bn<CR>", { desc = "next buffer" })
 vim.keymap.set("n", "<leader>bp", ":bp<CR>", { desc = "previous buffer" })
+vim.keymap.set("n", "<leader>b#", ":b#<CR>", { desc = "previously opened buffer" })
 -- vim.keymap.set("n", "<tab>", ":bn<CR>", { desc = "next buffer" })
 -- vim.keymap.set("n", "<s-tab>", ":bp<CR>", { desc = "previous buffer" })
 vim.keymap.set("n", "<leader>bd", ":bp <bar> bd # <CR>", { desc = "delete buffer" })
