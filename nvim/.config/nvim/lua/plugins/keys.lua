@@ -1,21 +1,26 @@
 return {
-	{
-		"folke/which-key.nvim",
-		priority = 999,
-		lazy = false,
-		config = function()
-			vim.opt.timeout = true
-			vim.opt.timeoutlen = 200
-			local wk = require("which-key")
-			wk.register({
-				["<leader>b"] = { name = "+buffer" },
-				["<leader>s"] = { name = "+search" },
-				["<leader>f"] = { name = "+files" },
-				["<leader>m"] = { name = "+mode" },
-			})
-		end,
-		keys = {
-			{ "<C-g>", ":WhichKey<CR>", desc = "trigger which key" },
-		},
-	},
+    {
+        "folke/which-key.nvim",
+        priority = 999,
+        lazy = false,
+        dependencies = {
+            "echasnovski/mini.icons",
+        },
+        config = function()
+            vim.opt.timeout = true
+            vim.opt.timeoutlen = 200
+            local wk = require("which-key")
+            wk.add({
+                { "<leader>b", group = "+buffer" },
+                { "<leader>s", group = "+search" },
+                { "<leader>f", group = "+files" },
+                { "<leader>m", group = "+mode" },
+                { "<leader>w", group = "+window" },
+                { "<leader>t", group = "+toggles" },
+            })
+        end,
+        keys = {
+            { "<C-g>", ":WhichKey<CR>", desc = "trigger which key" },
+        },
+    },
 }

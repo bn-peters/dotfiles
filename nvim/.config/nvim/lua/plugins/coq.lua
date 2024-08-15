@@ -9,7 +9,6 @@ return {
             vim.g.coqtail_noimap = 1
             vim.g.coqtail_map_prefix = "<leader>m"
 
-            vim.list_extend(require("nvim-autopairs").get_rule("'")[1].not_filetypes, { "coq" })
 
 
             local get_coqtail_window = function(s)
@@ -125,6 +124,9 @@ return {
                 parse({trig = "<=", wordTrig = false}, "≤"),
                 parse({trig = "ge", wordTrig = false}, "≥"),
                 parse({trig = ">=", wordTrig = false}, "≥"),
+                parse({trig = "equiv", wordTrig = false}, "≡"),
+                parse({trig = "prec", wordTrig = false}, "≺"),
+                parse({trig = "preceq", wordTrig = false}, "≼"),
 
                 parse({trig = "in", wordTrig = false}, "∈"),
                 parse({trig = "notin", wordTrig = false}, "∉"),

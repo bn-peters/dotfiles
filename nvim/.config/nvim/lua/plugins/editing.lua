@@ -2,6 +2,7 @@ return {
 	-- TODO add commands (for <space>p) and which key integration
 	"tpope/vim-commentary",
 	"tpope/vim-abolish",
+	"tpope/vim-sleuth",
 	{
         "tpope/vim-surround",
         config = function()
@@ -30,10 +31,13 @@ return {
             local Rule = require("nvim-autopairs.rule")
 
             pairs.add_rule(Rule("\\[", "\\]", "tex"))
-            -- pairs.add_rule(Rule("$", "$", "tex")
-            --     :with_move(function(opts)
-            --         return opts.next_char == opts.char
-                -- end))
+            pairs.add_rule(Rule("$", "$", "tex")
+                :with_move(function(opts)
+                    return opts.next_char == opts.char
+                end))
+            vim.list_extend(pairs.get_rule("'")[1].not_filetypes, { "coq", "tex" })
+            -- get_rule can either return a list of rules or just a rule (wtf)
+            pairs.get_rule("`").not_filetypes = { "coq" }
 		end,
 	},
 	"RRethy/vim-illuminate",
@@ -52,7 +56,7 @@ return {
 				desc = "toggle term",
 			},
 			{
-				"<leader>T",
+				"<leader>P",
 				":FloatermToggle<CR>",
 				desc = "toggle term <C-p>",
 			},
