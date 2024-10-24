@@ -1,5 +1,5 @@
 vim.opt.termguicolors = true
-vim.opt.list = true
+vim.opt.list = false
 vim.opt.listchars = {
     space = "·",
     tab = "> ",
@@ -9,8 +9,26 @@ vim.opt.listchars = {
 
 
 return {
-    -- TODO configure
-    -- TODO change cursor color in light mode
+    {
+        "folke/noice.nvim",
+        opts = {
+            presets = {
+                bottom_search = true, -- use a classic bottom cmdline for search
+                command_palette = true, -- position the cmdline and popupmenu together
+                long_message_to_split = true, -- long messages will be sent to a split
+                inc_rename = false, -- enables an input dialog for inc-rename.nvim
+                lsp_doc_border = false, -- add a border to hover docs and signature help
+              },
+        },
+    },
+    {
+        "echasnovski/mini.indentscope", 
+        opts = {},
+        config = function(_, opts)
+            require("mini.indentscope").setup(opts)
+            vim.api.nvim_set_hl(0, 'MiniIndentscopeSymbol', { link = 'NonText' })
+        end,
+    },
     {
         "catppuccin/nvim",
         name = "catppuccin",
@@ -74,8 +92,6 @@ return {
             })
         end,
     },
-    -- TODO configure
-    -- TODO evaluate bufferline vs cokeline
     {
         "akinsho/bufferline.nvim",
         -- TODO remove once #895 is fixed

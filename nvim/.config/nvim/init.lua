@@ -57,6 +57,9 @@ vim.opt.spell = true
 vim.opt.spelllang = { "en_gb", "de" }
 
 vim.opt.title = true
+vim.opt.linebreak = true
+vim.opt.wrap = true
+vim.opt.smoothscroll = true
 
 
 vim.api.nvim_create_autocmd("FileType", {
@@ -94,6 +97,7 @@ vim.keymap.set("n", "<leader>tn", ":set number!<CR>", { desc = "toggle line numb
 vim.keymap.set("n", "<leader>tl", ":set cursorline!<CR>", { desc = "toggle cursor line" })
 vim.keymap.set("n", "<leader>tc", ":set cursorcolumn!<CR>", { desc = "toggle cursor column" })
 vim.keymap.set("n", "<leader>tl", ":set list!<CR>", { desc = "toggle invisible chars" })
+vim.keymap.set("n", "<leader>tw", ":set linebreak!<CR>", { desc = "toggle word wrap" })
 
 -- window management
 vim.keymap.set("n", "<leader>w<left>", "<C-w><left>", { desc = "window left" })

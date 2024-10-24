@@ -40,6 +40,12 @@ return {
                         vim.keymap.set("i", "<M-down>", "<c-o>:CoqNext<CR>", { buffer = true, desc = "Coq next"})
                         vim.keymap.set("i", "<M-up>", "<c-o>:CoqUndo<CR>", { buffer = true, desc = "Coq previous"})
                         vim.keymap.set("i", "<M-right>", "<c-o>:CoqToLine<CR>", { buffer = true, desc = "Coq to line"})
+                        vim.keymap.set("n", "<leader>mt", function()
+                            local r, c = vim.api.nvim_win_get_cursor(0)
+                            vim.cmd("CoqJumpToEnd")
+                            vim.cmd("CoqToTop")
+                            vim.cmd("CoqToLine")
+                        end, { buffer = true, desc = "Coq restart to line"})
 
                         vim.keymap.set("n", "<leader>mw", function()
                             if vim.b.coqtail_panel_bufs == nil then return end
@@ -299,6 +305,13 @@ return {
                 parse({trig = "union", wordTrig = false}, "∪"),
                 parse({trig = "intersection", wordTrig = false}, "∩"),
                 parse({trig = "setminus", wordTrig = false}, "∖"),
+
+                parse({trig = "key", wordTrig = false}, "🔑"),
+
+                parse({trig = "join", wordTrig = false}, "⊔"),
+                parse({trig = "meet", wordTrig = false}, "⊓"),
+
+
             })
 		end,
 	},
