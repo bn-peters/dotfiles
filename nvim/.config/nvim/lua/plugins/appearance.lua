@@ -73,6 +73,14 @@ return {
             "nvim-tree/nvim-web-devicons",
         },
         config = function()
+            local function macro_status()
+                local reg = vim.fn.reg_recording()
+                if reg == "" then
+                    return ""
+                else
+                    return " " .. reg
+                end
+            end
             require("lualine").setup({
                 options = {
                     theme = "catppuccin",
@@ -80,7 +88,7 @@ return {
                     section_separators = { left = "", right = "" },
                 },
                 sections = {
-                    lualine_a = { "mode" },
+                    lualine_a = { "mode", macro_status },
                     lualine_b = { "branch", "diff" },
                     lualine_c = { "filename", "diagnostics" },
 
