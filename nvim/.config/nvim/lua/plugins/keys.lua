@@ -17,6 +17,7 @@ return {
                 { "<leader>m", group = "+mode" },
                 { "<leader>w", group = "+window" },
                 { "<leader>t", group = "+toggles" },
+                { "<leader>g", group = "+git" },
             })
         end,
         keys = {

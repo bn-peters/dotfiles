@@ -1,11 +1,11 @@
 return {
-	{
-		"whonore/coqtail",
+    {
+        "whonore/coqtail",
         branch = "main",
-		dependencies = {
-			"L3MON4D3/LuaSnip",
-		},
-		config = function()
+        dependencies = {
+            "L3MON4D3/LuaSnip",
+        },
+        config = function()
             vim.g.coqtail_noimap = 1
             vim.g.coqtail_map_prefix = "<leader>m"
 
@@ -41,11 +41,17 @@ return {
                         vim.keymap.set("i", "<M-up>", "<c-o>:CoqUndo<CR>", { buffer = true, desc = "Coq previous"})
                         vim.keymap.set("i", "<M-right>", "<c-o>:CoqToLine<CR>", { buffer = true, desc = "Coq to line"})
                         vim.keymap.set("n", "<leader>mt", function()
-                            local r, c = vim.api.nvim_win_get_cursor(0)
                             vim.cmd("CoqJumpToEnd")
                             vim.cmd("CoqToTop")
                             vim.cmd("CoqToLine")
                         end, { buffer = true, desc = "Coq restart to line"})
+                        vim.keymap.set("n", "<leader>me", ":CoqJumpToError<CR>", { buffer = true, desc = "Coq jump to error"})
+                        vim.keymap.set("n", "<leader>mF", function()
+                            vim.cmd("$")
+                            vim.cmd("CoqToLine")
+                            -- This call blocks while CoqToLine is running :/
+                            vim.cmd("CoqJumpToError")
+                        end, { buffer = true, desc = "Coq execute until error"})
 
                         vim.keymap.set("n", "<leader>mw", function()
                             if vim.b.coqtail_panel_bufs == nil then return end
@@ -70,7 +76,7 @@ return {
                             local current_width = vim.api.nvim_win_get_width(main_window)
                             local other_width = vim.api.nvim_win_get_width(goal_window)
 
-                            vim.api.nvim_win_set_width(goal_window, math.min(100, math.floor((current_width + other_width) * 0.5)))
+                            vim.api.nvim_win_set_width(goal_window, math.min(200, math.floor((current_width + other_width) * 0.5)))
                         end, { buffer = true, desc = "Coq resize panels"})
                     end
                 }
@@ -141,7 +147,11 @@ return {
 
                 parse({trig = "subset", wordTrig = false}, "⊂"),
                 parse({trig = "subseteq", wordTrig = false}, "⊆"),
+                parse({trig = "supset", wordTrig = false}, "⊃"),
+                parse({trig = "supseteq", wordTrig = false}, "⊇"),
+
                 parse({trig = "sqsubseteq", wordTrig = false}, "⊑"),
+                parse({trig = "sqsupseteq", wordTrig = false}, "⊒"),
                 parse({trig = "notsubseteq", wordTrig = false}, "⊈"),
 
                 parse({trig = "true", wordTrig = false}, "⊤"),
@@ -157,7 +167,7 @@ return {
                 parse({trig = "Vdash", wordTrig = false}, "⊩"),
                 parse({trig = "infty", wordTrig = false}, "∞"),
                 parse({trig = "comp", wordTrig = false}, "∘"),
-                parse({trig = "cdot", wordTrig = false}, "·"),
+                parse({trig = "cdot", wordTrig = false}, "∙"),
                 parse({trig = "mapsto", wordTrig = false}, "↦"),
                 parse({trig = "Mapsto", wordTrig = false}, "⤇"),
                 parse({trig = "hookrightarrow", wordTrig = false}, "↪"),
@@ -311,10 +321,11 @@ return {
                 parse({trig = "join", wordTrig = false}, "⊔"),
                 parse({trig = "meet", wordTrig = false}, "⊓"),
 
-
+                parse({trig = ">>", wordTrig = false}, "≫"),
+                parse({trig = "::", wordTrig = false}, "∷"),
             })
-		end,
-	},
+        end,
+    },
 }
 
 

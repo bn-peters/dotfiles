@@ -6,18 +6,37 @@ return {
         },
         keys = {
             {
-                "<leader>g",
+                "<leader>gg",
                 ":Neogit<CR>",
                 desc = "open git",
             },
         }
     },
     -- "tpope/vim-fugitive",
+    -- {
+    --     "airblade/vim-gitgutter",
+    --     config = function()
+    --         vim.opt.updatetime = 100
+    --         vim.g.gitgutter_map_keys = false
+    --     end,
+    -- },
     {
-        "airblade/vim-gitgutter",
+        "lewis6991/gitsigns.nvim",
         config = function()
-            vim.opt.updatetime = 100
-            vim.g.gitgutter_map_keys = false
+            require("gitsigns").setup()
         end,
+        lazy = false,
+        keys = {
+            {
+                "<leader>gb",
+                ":Gitsigns blame<CR>",
+                desc = "blame",
+            },
+            {
+                "<leader>gw",
+                ":Gitsigns toggle_word_diff<CR>",
+                desc = "toggle word diff",
+            }
+        }
     },
 }

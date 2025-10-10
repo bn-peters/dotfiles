@@ -108,3 +108,5 @@ Booleans
 off
 Check/!
 opam
+compositionality
+linearization
