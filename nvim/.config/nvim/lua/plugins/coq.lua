@@ -28,6 +28,8 @@ return {
                 {
                     pattern = "coq",
                     callback = function()
+                        vim.opt_local.colorcolumn = "100"
+
                         vim.keymap.set("n", "<leader>m.", ":CoqToLine<cr>", { buffer = true, desc = "Coq to line"})
 
                         vim.keymap.set("n", "<M-down>", function()
