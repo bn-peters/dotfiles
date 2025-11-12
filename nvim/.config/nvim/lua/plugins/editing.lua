@@ -64,7 +64,7 @@ return {
         config = function()
             vim.g.floaterm_position = "top"
             vim.g.floaterm_width = 0.8
-            vim.g.floaterm_height = 0.4
+            vim.g.floaterm_height = 0.7
             vim.g.floaterm_borderchars = "        "
         end,
         keys = {

@@ -29,12 +29,14 @@ return {
                     pattern = "coq",
                     callback = function()
                         vim.opt_local.colorcolumn = "100"
+                        vim.opt_local.spell = false
 
                         vim.keymap.set("n", "<leader>m.", ":CoqToLine<cr>", { buffer = true, desc = "Coq to line"})
 
+                        set_printing_width_automatically()
+                        vim.cmd(":Coq Set Printing Width 100 ")
                         vim.keymap.set("n", "<M-down>", function()
                             -- TODO remove this once https://github.com/whonore/Coqtail/issues/345 has been fixed
-                            set_printing_width_automatically()
                             vim.cmd(":CoqNext")
                         end, { buffer = true, desc = "Coq next"})
                         vim.keymap.set("n", "<M-up>", ":CoqUndo<CR>", { buffer = true, desc = "Coq previous"})
@@ -78,7 +80,8 @@ return {
                             local current_width = vim.api.nvim_win_get_width(main_window)
                             local other_width = vim.api.nvim_win_get_width(goal_window)
 
-                            vim.api.nvim_win_set_width(goal_window, math.min(200, math.floor((current_width + other_width) * 0.5)))
+                            -- vim.api.nvim_win_set_width(main_window, math.max(107, math.floor((current_width + other_width) * 0.5)))
+                            vim.api.nvim_win_set_width(main_window, 107)
                         end, { buffer = true, desc = "Coq resize panels"})
                     end
                 }
@@ -96,6 +99,7 @@ return {
 
                         vim.opt_local.relativenumber = false
                         vim.opt_local.number = false
+                        vim.opt_local.spell = false
                     end
                 }
             )
@@ -325,6 +329,8 @@ return {
 
                 parse({trig = ">>", wordTrig = false}, "≫"),
                 parse({trig = "::", wordTrig = false}, "∷"),
+                parse({trig = "=>", wordTrig = false}, "⇒"),
+
             })
         end,
     },
