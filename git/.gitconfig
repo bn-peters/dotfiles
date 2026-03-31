@@ -1,5 +1,5 @@
 [alias]
-	lg = !"git lg1"
+	lg = !"git lg1s"
 	lg1 = !"git lg1s --all"
 	lg2 = !"git lg2s --all"
 	lg3 = !"git lg3s --all"

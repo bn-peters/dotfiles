@@ -197,6 +197,8 @@ return {
                 parse({trig = "sep", wordTrig = false}, "∗"),
                 parse({trig = "ulc", wordTrig = false}, "⌜"),
                 parse({trig = "urc", wordTrig = false}, "⌝"),
+                parse({trig = "lceil", wordTrig = false}, "⎡"),
+                parse({trig = "rceil", wordTrig = false}, "⎤"),
                 parse({trig = "Lc", wordTrig = false}, "⎡"),
                 parse({trig = "Rc", wordTrig = false}, "⎤"),
                 parse({trig = "varnothing", wordTrig = false}, "∅"),

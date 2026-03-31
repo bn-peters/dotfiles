@@ -2,8 +2,6 @@ return {
     {
         "neovim/nvim-lspconfig",
         config = function()
-            local lsp = require("lspconfig")
-
             -- TODO from https://rsdlt.github.io/posts/rust-nvim-ide-guide-walkthrough-development-debug/, check!
             -- LSP Diagnostics Options Setup
             local sign = function(opts)
@@ -38,9 +36,10 @@ return {
                 autocmd CursorHold * lua vim.diagnostic.open_float(nil, { focusable = false })
             ]])
 
-            lsp.ocamllsp.setup {
-                 settings = { codelens = { enable = true } },
-            }
+            vim.lsp.config("ocamllsp", {
+                settings = { codelens = { enable = true } },
+            })
+            vim.lsp.enable("ocamllsp")
             -- lsp.texlab.setup({
 
             -- })
