@@ -29,33 +29,19 @@ return {
 						require("luasnip").lsp_expand(args.body)
 					end,
 				},
-				mapping = cmp.mapping.preset.insert({
-					["<C-b>"] = cmp.mapping.scroll_docs(-4),
-					["<C-f>"] = cmp.mapping.scroll_docs(4),
-					["<C-Space>"] = cmp.mapping.complete(),
-					["<C-e>"] = cmp.mapping.abort(),
-					-- ["<tab>"] = cmp.mapping.confirm({ select = true }),
-
-					-- from https://github.com/hrsh7th/nvim-cmp/wiki/Example-mappings#luasnip
-                    -- TODO move to a better location?
+				mapping = {
+					["<Up>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
+					["<Down>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
 					["<Tab>"] = cmp.mapping(function(fallback)
 						if cmp.visible() then
 							cmp.confirm({ select = true })
-						elseif luasnip.expand_or_locally_jumpable() then
-							luasnip.expand_or_jump()
+						elseif luasnip.expandable() then
+							luasnip.expand()
 						else
 							fallback()
 						end
 					end, { "i", "s" }),
-
-					["<S-Tab>"] = cmp.mapping(function(fallback)
-						if luasnip.jumpable(-1) then
-							luasnip.jump(-1)
-						else
-							fallback()
-						end
-					end, { "i", "s" }),
-				}),
+				},
 				sources = cmp.config.sources({
 					{ name = "omni" },
 					{ name = "path" },
@@ -101,5 +87,5 @@ return {
 			-- })
 
 		end,
-	},
-}
+		},
+	}

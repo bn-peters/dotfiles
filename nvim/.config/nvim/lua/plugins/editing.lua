@@ -16,7 +16,18 @@ return {
             }
         }
     },
-    "github/copilot.vim",
+    {
+        "github/copilot.vim",
+        init = function()
+            vim.g.copilot_no_maps = true
+            vim.keymap.set("i", "<S-Tab>", 'copilot#Accept("")', {
+                desc = "accept copilot suggestion",
+                expr = true,
+                replace_keycodes = false,
+                silent = true,
+            })
+        end,
+    },
     -- TODO add commands (for <space>p) and which key integration
     "tpope/vim-abolish",
     "tpope/vim-sleuth",

@@ -14,6 +14,10 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 vim.g.mapleader = " "
+vim.g.maplocalleader = " "
+
+pcall(vim.keymap.del, { "i", "s" }, "<Tab>")
+pcall(vim.keymap.del, { "i", "s" }, "<S-Tab>")
 
 require("lazy").setup({
     { 
@@ -34,7 +38,6 @@ require("lazy").setup({
 vim.opt.mouse = "a"
 
 vim.g.mapleader = " "
-vim.g.maplocalleader = " "
 
 vim.opt.relativenumber = true
 vim.opt.number = true
