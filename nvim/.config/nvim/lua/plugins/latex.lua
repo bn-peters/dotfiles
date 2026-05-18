@@ -1,6 +1,7 @@
 return {
     -- for matching of begin/end
-    "andymass/vim-matchup",
+    -- TODO seemed to be causing errors
+    -- "andymass/vim-matchup",
     {
         "lervag/vimtex",
         config = function()

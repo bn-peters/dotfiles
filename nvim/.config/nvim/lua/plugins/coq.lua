@@ -9,8 +9,6 @@ return {
             vim.g.coqtail_noimap = 1
             vim.g.coqtail_map_prefix = "<leader>m"
 
-            vim.g.coqtail_build_system = "prefer-coqproject"
-
             local get_coqtail_window = function(s)
                 local windows = vim.fn.win_findbuf(vim.b.coqtail_panel_bufs[s])
                 if #windows == 0 then return end
@@ -332,6 +330,7 @@ return {
                 parse({trig = ">>", wordTrig = false}, "≫"),
                 parse({trig = "::", wordTrig = false}, "∷"),
                 parse({trig = "=>", wordTrig = false}, "⇒"),
+                parse({trig = "Uparrow", wordTrig = false}, "⇑"),
 
             })
         end,
