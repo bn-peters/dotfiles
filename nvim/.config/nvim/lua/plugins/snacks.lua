@@ -55,7 +55,9 @@ return {
                         live = false,
                         need_search = false,
                         args = { "--max-columns=9999", "--no-max-columns-preview" },
-                        layout = "ivy",
+                        layout = {
+                            preset = "ivy_split",
+                        },
                     })
                 end,
                 desc = "search files",
