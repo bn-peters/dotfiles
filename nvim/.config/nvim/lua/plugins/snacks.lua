@@ -1,3 +1,34 @@
+local function floating_terminal_opts()
+    return {
+        count = 1,
+        win = {
+            position = "float",
+            row = 1,
+            width = 0.8,
+            height = 0.7,
+            border = { "┌", "─", "┐", "│", "┘", "─", "└", "│" },
+            backdrop = false,
+        },
+    }
+end
+
+local function agent_terminal_opts()
+    return {
+        count = 2,
+        win = {
+            position = "right",
+            width = 90,
+            wo = {
+                winbar = "",
+            },
+        },
+    }
+end
+
+local function toggle_agent_terminal()
+    Snacks.terminal(nil, agent_terminal_opts())
+end
+
 return {
     {
         "folke/snacks.nvim",
@@ -152,6 +183,39 @@ return {
                     Snacks.picker.help({})
                 end,
                 desc = "help tags",
+            },
+            {
+                "<C-p>",
+                function()
+                    Snacks.terminal(nil, floating_terminal_opts())
+                end,
+                desc = "toggle terminal",
+            },
+            {
+                "<leader>P",
+                function()
+                    Snacks.terminal(nil, floating_terminal_opts())
+                end,
+                desc = "toggle terminal <C-p>",
+            },
+            {
+                "<C-p>",
+                function()
+                    Snacks.terminal(nil, floating_terminal_opts())
+                end,
+                mode = "t",
+                desc = "toggle terminal",
+            },
+            {
+                "<C-T>",
+                toggle_agent_terminal,
+                desc = "toggle AI agent terminal",
+            },
+            {
+                "<C-T>",
+                toggle_agent_terminal,
+                mode = "t",
+                desc = "toggle AI agent terminal",
             },
         },
     },

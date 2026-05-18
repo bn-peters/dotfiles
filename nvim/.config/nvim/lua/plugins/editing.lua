@@ -59,32 +59,4 @@ return {
         end,
     },
     "RRethy/vim-illuminate",
-    {
-        "voldikss/vim-floaterm",
-        config = function()
-            vim.g.floaterm_position = "top"
-            vim.g.floaterm_width = 0.8
-            vim.g.floaterm_height = 0.7
-            vim.g.floaterm_borderchars = "        "
-        end,
-        keys = {
-            {
-                "<C-p>",
-                ":FloatermToggle<CR>",
-                desc = "toggle term",
-            },
-            {
-                "<leader>P",
-                ":FloatermToggle<CR>",
-                desc = "toggle term <C-p>",
-            },
-            {
-                "<C-p>",
-                "<C-\\><C-n>:FloatermToggle<CR>",
-                mode = "t",
-                desc = "toggle term",
-            },
-        },
-    },
-
 }
