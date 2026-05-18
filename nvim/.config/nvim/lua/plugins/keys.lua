@@ -18,6 +18,7 @@ return {
                 { "<leader>w", group = "+window" },
                 { "<leader>t", group = "+toggles" },
                 { "<leader>g", group = "+git" },
+                { "<leader>a", group = "+ai" },
             })
         end,
         keys = {
