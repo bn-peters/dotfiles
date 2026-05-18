@@ -18,7 +18,6 @@ return {
     },
     "github/copilot.vim",
     -- TODO add commands (for <space>p) and which key integration
-    "tpope/vim-commentary",
     "tpope/vim-abolish",
     "tpope/vim-sleuth",
     {
@@ -28,16 +27,6 @@ return {
             vim.cmd("autocmd FileType tex let b:surround_101 = \"\\\\emph{\\r}\"")
             vim.cmd("autocmd FileType tex let b:surround_116 = \"\\\\tup{\\r}\"")
         end,
-    },
-    {
-        "simnalamburt/vim-mundo",
-        keys = {
-            {
-                "<leader>U",
-                ":MundoToggle<CR>",
-                desc = "toggle undo tree"
-            }
-        }
     },
     "wellle/targets.vim",
     {
@@ -94,8 +83,8 @@ return {
         keys = {
             {
                 "<leader>sf",
-                ":Ag<CR>",
-                "fuzzy search files"
+                ":Rg<CR>",
+                desc = "fuzzy search files",
             }
         }
     }

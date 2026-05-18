@@ -82,6 +82,10 @@ vim.keymap.set("n", "<leader>bd", ":bp <bar> bd # <CR>", { desc = "delete buffer
 -- stuff
 vim.keymap.set("n", "<CR>", ":noh<CR><CR>", { noremap = true })
 vim.keymap.set("n", "<space>L", ":Lazy<CR>", { desc = "open Lazy control panel"})
+local undo_tree = require("config.undo_tree")
+vim.keymap.set("n", "<leader>U", function()
+    undo_tree.toggle()
+end, { desc = "toggle undo tree" })
 
 -- terminal
 vim.keymap.set("t", "<esc>", "<C-\\><C-n>", { desc = "exit terminal mode" })

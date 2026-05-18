@@ -1,9 +1,10 @@
 return {
     {
         "neovim/nvim-lspconfig",
+        dependencies = {
+            "hrsh7th/cmp-nvim-lsp",
+        },
         config = function()
-            -- TODO from https://rsdlt.github.io/posts/rust-nvim-ide-guide-walkthrough-development-debug/, check!
-            -- LSP Diagnostics Options Setup
             local sign = function(opts)
                 vim.fn.sign_define(opts.name, {
                     texthl = opts.name,
@@ -36,25 +37,29 @@ return {
                 autocmd CursorHold * lua vim.diagnostic.open_float(nil, { focusable = false })
             ]])
 
+            local capabilities = vim.lsp.protocol.make_client_capabilities()
+            local ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
+            if ok then
+                capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
+            end
+
             vim.lsp.config("ocamllsp", {
+                capabilities = capabilities,
                 settings = { codelens = { enable = true } },
             })
             vim.lsp.enable("ocamllsp")
-            -- lsp.texlab.setup({
 
-            -- })
+            vim.lsp.config("coq_lsp", {
+                capabilities = capabilities,
+                cmd = { "coq-lsp" },
+            })
+            vim.lsp.enable("coq_lsp")
         end,
     },
-    -- {
-    -- "jose-elias-alvarez/null-ls.nvim",
-    -- }
-    -- show LSP status in bottom right corner
     {
         "j-hui/fidget.nvim",
-        -- TODO remove when plugin is updated
-        branch = "legacy",
-            config = function()
-                require("fidget").setup()
-            end,
+        config = function()
+            require("fidget").setup()
+        end,
     },
 }
