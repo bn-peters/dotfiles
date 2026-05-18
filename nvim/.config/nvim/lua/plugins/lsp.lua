@@ -49,11 +49,11 @@ return {
             })
             vim.lsp.enable("ocamllsp")
 
-            vim.lsp.config("coq_lsp", {
-                capabilities = capabilities,
-                cmd = { "coq-lsp" },
-            })
-            vim.lsp.enable("coq_lsp")
+            -- vim.lsp.config("coq_lsp", {
+            --     capabilities = capabilities,
+            --     cmd = { "coq-lsp" },
+            -- })
+            -- vim.lsp.enable("coq_lsp")
         end,
     },
     {
