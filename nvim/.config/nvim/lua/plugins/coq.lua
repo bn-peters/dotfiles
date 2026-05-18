@@ -9,6 +9,21 @@ return {
             vim.g.coqtail_noimap = 1
             vim.g.coqtail_map_prefix = "<leader>m"
 
+            -- Coqtail restores 'joinspaces' on BufLeave by unletting
+            -- b:_coqtail_save_js, but nvim-tree preview can enter the Coq
+            -- buffer with BufEnter ignored. Seed the value before Coqtail's
+            -- own BufLeave autocmd runs so that unlet does not fail.
+            vim.api.nvim_create_autocmd("BufLeave", {
+                group = vim.api.nvim_create_augroup("CoqtailJoinspacesGuard", { clear = true }),
+                pattern = "*",
+                callback = function(args)
+                    if vim.bo[args.buf].filetype ~= "coq" then return end
+                    if vim.b[args.buf]._coqtail_save_js ~= nil then return end
+
+                    vim.b[args.buf]._coqtail_save_js = vim.o.joinspaces
+                end,
+            })
+
             local get_coqtail_window = function(s)
                 local windows = vim.fn.win_findbuf(vim.b.coqtail_panel_bufs[s])
                 if #windows == 0 then return end
@@ -344,4 +359,3 @@ return {
 --     \  hi def CoqtailChecked ctermbg=0 guibg=#1D3824
 --     \| hi def CoqtailSent    ctermbg=53 guibg=#291616
 -- augroup END
-
