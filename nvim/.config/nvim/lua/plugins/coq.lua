@@ -25,16 +25,28 @@ return {
             })
 
             local get_coqtail_window = function(s)
-                local windows = vim.fn.win_findbuf(vim.b.coqtail_panel_bufs[s])
-                if #windows == 0 then return end
-                return windows[1]
+                local panel_bufs = vim.b.coqtail_panel_bufs
+                if type(panel_bufs) ~= "table" then return end
+
+                local panel_buf = panel_bufs[s]
+                if type(panel_buf) ~= "number" or not vim.api.nvim_buf_is_valid(panel_buf) then return end
+
+                local windows = vim.fn.win_findbuf(panel_buf)
+                for _, window in ipairs(windows) do
+                    if vim.api.nvim_win_is_valid(window) then
+                        return window
+                    end
+                end
             end
             local set_printing_width_automatically = function ()
-                if vim.b[0].coqtail_panel_bufs == nil then return end
                 local goal_window = get_coqtail_window("goal")
-                local width = vim.api.nvim_win_get_width(goal_window)
+                if goal_window == nil then return false end
 
-                vim.cmd(":Coq Set Printing Width " .. (width - 5))
+                local ok, width = pcall(vim.api.nvim_win_get_width, goal_window)
+                if not ok or type(width) ~= "number" then return false end
+
+                vim.cmd(":Coq Set Printing Width " .. math.max(20, width - 5))
+                return true
             end
             
             vim.api.nvim_create_autocmd("FileType",
@@ -46,8 +58,9 @@ return {
 
                         vim.keymap.set("n", "<leader>m.", ":CoqToLine<cr>", { buffer = true, desc = "Coq to line"})
 
-                        set_printing_width_automatically()
-                        vim.cmd(":Coq Set Printing Width 100 ")
+                        if not set_printing_width_automatically() then
+                            vim.cmd(":Coq Set Printing Width 100 ")
+                        end
                         vim.keymap.set("n", "<M-down>", function()
                             -- TODO remove this once https://github.com/whonore/Coqtail/issues/345 has been fixed
                             vim.cmd(":CoqNext")
